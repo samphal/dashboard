@@ -1,0 +1,16 @@
+{
+  "name": "dashBoard_CoWork2",
+  "version": "1.0.0",
+  "description": "DashBoard For Co-Work2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express.io": "^1.1.13",
+    "mongoose": "^4.0.8",
+    "mongoose-validator": "^1.2.0"
+  }
+}
