@@ -111,7 +111,7 @@ module.exports = function(app){
 
 		var field_list = ['locations','email'];
 		
-		if(!has_required_field(req.body , field_list)){	
+		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.locations)){	
 			res.status(400);
 			res.end("Bad Request");
 			return;
@@ -137,6 +137,16 @@ module.exports = function(app){
 			})(i);
 		}
 	});
+
+	function reqired_format(obj){
+		for(var i = 0,length = obj.length;i<length;i++){
+			if(typeof obj[i].datetime === 'undefined' || typeof obj[i].loc === 'undefined')
+				return false;
+			if(typeof obj[i].loc.latitude === 'undefined' || typeof obj[i].loc.longitude === 'undefined')
+				return false;
+		}
+		return true;
+	}
 
 	app.post('/api/android/shops',function(req,res){
 		console.log(JSON.stringify(req.body));
