@@ -35,14 +35,18 @@ module.exports = function(app){
 		});
 	});
 
-	app.get('/api/android/shops/:userid/:day/:month/:year',function(req,res){
+	app.get('/api/android/locations/:userid/:day/:month/:year',function(req,res){
 		var date = req.params.day+"/"+req.params.month+"/"+req.params.year;
-		Location.findOne({username : req.params.userid,date:date},{shops:1,_id:0},function(err,location){
-			if(err || location === null){
+		Location.findOne({username : req.params.userid,date:date},{locations:1,_id:0},function(err,location){
+			if(err){
 				res.status(500);
 				res.end("Internal Error");
+			}else if(location === null){
+				res.end(JSON.stringify([]));
 			}else{
-				res.end(JSON.stringify(location.shops));
+				// res.end(JSON.stringify(location.locations));
+				console.log(JSON.stringify(minimum_15_minute_diff_locations(location.locations)));
+				res.end(JSON.stringify(minimum_15_minute_diff_locations(location.locations)));
 			}
 		});
 	});
@@ -102,6 +106,8 @@ module.exports = function(app){
 	});
 
 	app.post('/api/android/locations',function(req,res){
+
+		console.log(JSON.stringify(req.body));
 
 		var field_list = ['locations','email'];
 		
@@ -164,7 +170,41 @@ module.exports = function(app){
 			})(i);
 		}
 	});
+
+	app.get('/api/android/users/username',function(req,res){
+		User.find({},{username:1},function(err,users){
+			if(err){
+				res.status(500);
+				res.end("Internal Error");
+			}else{
+				res.end(JSON.stringify(users));
+			}
+		});
+	});
 };
+
+function minimum_15_minute_diff_locations(locations){
+	var newArray = [] , last_datetime = null;
+	for(var i = 0,length = locations.length; i < length; i++){
+		if(is_diff_is_15_minite_or_more(locations[i].datetime,last_datetime)){
+			newArray.push(locations[i]);
+			last_datetime = locations[i].datetime;
+		}
+	}
+	return newArray;
+}
+
+function is_diff_is_15_minite_or_more(firsttime,secondtiem){
+	if(secondtiem == null){
+		return true;
+	}
+
+	var diff = (firsttime - secondtiem) / 1000 / 60;
+	if(diff >= 15){
+		return true;
+	}
+	return false;
+}
 
 function group_by_date(array){
 	var group_by_date_array = [],obj={};
