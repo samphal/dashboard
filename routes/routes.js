@@ -230,9 +230,9 @@ function minimum_15_minute_diff_locations(locations){
 	var newArray = [] , last_datetime = null;
 	for(var i = 0,length = locations.length; i < length; i++){
 		if(is_diff_is_15_minite_or_more(locations[i].datetime,last_datetime)){
+			last_datetime = locations[i].datetime;
 			locations[i].datetime = locations[i].datetime - (1000 * 60 * 60 * 4);
 			newArray.push(locations[i]);
-			last_datetime = locations[i].datetime;
 		}
 	}
 	return newArray;
