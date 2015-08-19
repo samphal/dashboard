@@ -105,6 +105,39 @@ module.exports = function(app){
 		}
 	});
 
+	app.post('/api/android/shops',function(req,res){
+
+		console.log(JSON.stringify(req.body));
+
+		var field_list = ['shops','email'];
+		
+		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.shops)){	
+			res.status(400);
+			res.end("Bad Request");
+			return;
+		}
+
+		var data = group_by_date(req.body.shops);
+
+		for(var i = 0 , length = data.length ; i < length ; i++){
+			(function(index){
+				Location.update({username : req.body.email , date : data[index].date},{$pushAll : {shops : data[index].locations , locations : []}},{upsert:true},
+					function(err){
+						if(err){
+							res.status(500);
+							res.end("Internal Error");
+							return;
+						}else{
+							console.log("updated" + index);
+						}
+						if(index === length-1){
+							res.end("updated");
+						}
+					});
+			})(i);
+		}
+	});
+
 	app.post('/api/android/locations',function(req,res){
 
 		console.log(JSON.stringify(req.body));
@@ -197,6 +230,7 @@ function minimum_15_minute_diff_locations(locations){
 	var newArray = [] , last_datetime = null;
 	for(var i = 0,length = locations.length; i < length; i++){
 		if(is_diff_is_15_minite_or_more(locations[i].datetime,last_datetime)){
+			locations[i].datetime = locations[i].datetime - (1000 * 60 * 60 * 4);
 			newArray.push(locations[i]);
 			last_datetime = locations[i].datetime;
 		}

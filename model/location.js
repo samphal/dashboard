@@ -15,7 +15,7 @@ var LocationSchema = new mongoose.Schema({
 		datetime : { type : Date }
 	}],
 	shops : [{
-		loc : { lat : {type : Number},long : {type : Number}},
+		loc : { latitude : {type : Number},longitude : {type : Number}},
 		datetime : { type : Date }
 	}]
 });
