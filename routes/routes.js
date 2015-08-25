@@ -86,7 +86,7 @@ module.exports = function(app){
 
 	app.post('/api/android/login',function(req,res){
 		var field_list = ['username','password'];
-		var username_regex = new RegExp(["^",req.body.username,"$"].join(""),i);
+		var username_regex = new RegExp(["^",req.body.username,"$"].join(""),"i");
 
 		if(has_required_field(req.body , field_list)){	
 			User.findOne({username: username_regex},{password:1,_id:1,failed_attempts:1,last_login:1,role:1},function(err,user){
