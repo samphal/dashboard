@@ -125,7 +125,8 @@ module.exports = function(app){
 		console.log(JSON.stringify(req.body));
 
 		var field_list = ['shops','email'];
-		
+		var req.body.shops = JSON.parse(req.body.shops);
+
 		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.shops)){	
 			res.json({error:"Bad Request"});
 			return;
@@ -156,6 +157,7 @@ module.exports = function(app){
 		console.log(JSON.stringify(req.body));
 
 		var field_list = ['locations','email'];
+		var req.body.locations = JSON.parse(req.body.locations);
 		
 		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.locations)){	
 			res.json({error:"Bad Request"});
