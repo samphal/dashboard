@@ -154,11 +154,8 @@ module.exports = function(app){
 
 	app.post('/api/android/locations',function(req,res){
 
-		// console.log(JSON.stringify(req.body));
-
 		var field_list = ['locations','email'];
 		var locations = JSON.parse(req.body.locations);
-		// console.log(JSON.stringify(locations));
 		
 		if(!has_required_field(req.body , field_list) || !reqired_format(locations)){
 			console.log("SC1");	
@@ -167,7 +164,6 @@ module.exports = function(app){
 		}
 
 		var data = group_by_date(locations);
-		console.log(JSON.stringify(data));
 
 		for(var i = 0 , length = data.length ; i < length ; i++){
 			(function(index){
@@ -277,9 +273,11 @@ function group_by_date(array){
 			obj = {};
 			obj.date = format_date(array[i].datetime);
 			obj.locations = [];
+			array[i].datetime = format_date(array[i].datetime);
 			obj.locations.push(array[i]);
 			group_by_date_array.push(obj);
 		}else{
+			array[i].datetime = format_date(array[i].datetime);
 			group_by_date_array[indexOf(group_by_date_array,format_date(array[i].datetime))].locations.push(array[i]);
 		}
 	}
