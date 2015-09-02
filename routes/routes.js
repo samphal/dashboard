@@ -127,8 +127,7 @@ module.exports = function(app){
 		var field_list = ['shops','email'];
 		
 		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.shops)){	
-			res.status(400);
-			res.end("Bad Request");
+			res.json({error:"Bad Request"});
 			return;
 		}
 
@@ -139,14 +138,13 @@ module.exports = function(app){
 				Location.update({username : req.body.email , date : data[index].date},{$pushAll : {shops : data[index].locations , locations : []}},{upsert:true},
 					function(err){
 						if(err){
-							res.status(500);
-							res.end("Internal Error");
+							res.json({error : "Internal Error"});
 							return;
 						}else{
 							console.log("updated" + index);
 						}
 						if(index === length-1){
-							res.end("updated");
+							res.json({message : "updated"});
 						}
 					});
 			})(i);
@@ -160,8 +158,7 @@ module.exports = function(app){
 		var field_list = ['locations','email'];
 		
 		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.locations)){	
-			res.status(400);
-			res.end("Bad Request");
+			res.json({error:"Bad Request"});
 			return;
 		}
 
@@ -172,14 +169,13 @@ module.exports = function(app){
 				Location.update({username : req.body.email , date : data[index].date},{$pushAll : {locations : data[index].locations , shops : []}},{upsert:true},
 					function(err){
 						if(err){
-							res.status(500);
-							res.end("Internal Error");
+							res.json({error : "Internal Error"});
 							return;
 						}else{
 							console.log("updated" + index);
 						}
 						if(index === length-1){
-							res.end("updated");
+							res.json({message : "updated"});
 						}
 					});
 			})(i);
