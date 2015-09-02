@@ -277,8 +277,9 @@ function group_by_date(array){
 			obj.locations.push(array[i]);
 			group_by_date_array.push(obj);
 		}else{
+			var data = group_by_date_array[indexOf(group_by_date_array,format_date(array[i].datetime))]
 			array[i].datetime = format_date(array[i].datetime);
-			group_by_date_array[indexOf(group_by_date_array,format_date(array[i].datetime))].locations.push(array[i]);
+			data.locations.push(array[i]);
 		}
 	}
 
