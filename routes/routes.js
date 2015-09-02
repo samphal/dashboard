@@ -158,7 +158,7 @@ module.exports = function(app){
 
 		var field_list = ['locations','email'];
 		var locations = JSON.parse(req.body.locations);
-		console.log(JSON.stringify(locations));
+		// console.log(JSON.stringify(locations));
 		
 		if(!has_required_field(req.body , field_list) || !reqired_format(locations)){
 			console.log("SC1");	
@@ -167,12 +167,14 @@ module.exports = function(app){
 		}
 
 		var data = group_by_date(locations);
+		console.log(JSON.stringify(locations));
 
 		for(var i = 0 , length = data.length ; i < length ; i++){
 			(function(index){
 				Location.update({username : req.body.email , date : data[index].date},{$pushAll : {locations : data[index].locations , shops : []}},{upsert:true},
 					function(err){
 						if(err){
+							console.log(JSON.stringify(err));
 							console.log("SC2");
 							res.json({error : "Internal Error"});
 							return;
