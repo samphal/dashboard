@@ -125,14 +125,14 @@ module.exports = function(app){
 		console.log(JSON.stringify(req.body));
 
 		var field_list = ['shops','email'];
-		var req.body.shops = JSON.parse(req.body.shops);
+		var shops = JSON.parse(req.body.shops);
 
-		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.shops)){	
+		if(!has_required_field(req.body , field_list) || !reqired_format(shops)){	
 			res.json({error:"Bad Request"});
 			return;
 		}
 
-		var data = group_by_date(req.body.shops);
+		var data = group_by_date(shops);
 
 		for(var i = 0 , length = data.length ; i < length ; i++){
 			(function(index){
@@ -157,14 +157,14 @@ module.exports = function(app){
 		console.log(JSON.stringify(req.body));
 
 		var field_list = ['locations','email'];
-		var req.body.locations = JSON.parse(req.body.locations);
+		var locations = JSON.parse(req.body.locations);
 		
-		if(!has_required_field(req.body , field_list) || !reqired_format(req.body.locations)){	
+		if(!has_required_field(req.body , field_list) || !reqired_format(locations)){	
 			res.json({error:"Bad Request"});
 			return;
 		}
 
-		var data = group_by_date(req.body.locations);
+		var data = group_by_date(locations);
 
 		for(var i = 0 , length = data.length ; i < length ; i++){
 			(function(index){
