@@ -167,7 +167,7 @@ module.exports = function(app){
 		}
 
 		var data = group_by_date(locations);
-		console.log(JSON.stringify(locations));
+		console.log(JSON.stringify(data));
 
 		for(var i = 0 , length = data.length ; i < length ; i++){
 			(function(index){
