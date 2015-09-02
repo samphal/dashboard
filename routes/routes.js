@@ -297,7 +297,7 @@ function indexOf(array,element){
 }
 
 function format_date(a){
-  a= new Date(a);
+  a= new Date(parseInt(a));
   var date = a.getDate() < 10 ? "0"+a.getDate() : a.getDate();
   var month = a.getMonth() <10 ? "0"+a.getMonth() : a.getMonth();
   var formatted_date = date + "/" + month + "/"+a.getFullYear();
