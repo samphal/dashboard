@@ -154,10 +154,11 @@ module.exports = function(app){
 
 	app.post('/api/android/locations',function(req,res){
 
-		console.log(JSON.stringify(req.body));
+		// console.log(JSON.stringify(req.body));
 
 		var field_list = ['locations','email'];
 		var locations = JSON.parse(req.body.locations);
+		console.log(JSON.stringify(locations));
 		
 		if(!has_required_field(req.body , field_list) || !reqired_format(locations)){	
 			res.json({error:"Bad Request"});
