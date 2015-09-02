@@ -160,7 +160,8 @@ module.exports = function(app){
 		var locations = JSON.parse(req.body.locations);
 		console.log(JSON.stringify(locations));
 		
-		if(!has_required_field(req.body , field_list) || !reqired_format(locations)){	
+		if(!has_required_field(req.body , field_list) || !reqired_format(locations)){
+			console.log("SC1");	
 			res.json({error:"Bad Request"});
 			return;
 		}
@@ -172,12 +173,15 @@ module.exports = function(app){
 				Location.update({username : req.body.email , date : data[index].date},{$pushAll : {locations : data[index].locations , shops : []}},{upsert:true},
 					function(err){
 						if(err){
+							console.log("SC2");
 							res.json({error : "Internal Error"});
 							return;
 						}else{
+							console.log("SC4");
 							console.log("updated" + index);
 						}
 						if(index === length-1){
+							console.log("SC3");
 							res.json({message : "updated"});
 						}
 					});
