@@ -75,7 +75,7 @@ module.exports = function(app){
 		Location.findOne({date : date,username : req.params.id},{shops:1,_id:0,username:1})
 		.populate('username','username -_id')
 		.exec(function(err,location){
-			if(err){
+			if(err || location === null){
 				res.json({code : 500 , message : "Internal Error"});
 			}else{
 				var data = {name : location.username.username , count : location.shops.length};
